@@ -12,7 +12,7 @@ function AddContact() {
       return;
     }
 
-    await axios.post("http://localhost:5000/api/contacts", form);
+    await axios.post("https://contactmanager-eg48.onrender.com/api/contacts ", form);
     alert("✅ Contact Added");
 
     setForm({ name: "", email: "", phone: "" });

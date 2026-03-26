@@ -7,7 +7,7 @@ function Contacts() {
   const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "" });
 
-  const API = "http://localhost:5000/api/contacts";
+  const API = "https://contactmanager-eg48.onrender.com/api/contacts ";
 
   const fetchContacts = async () => {
     const res = await axios.get(API);
