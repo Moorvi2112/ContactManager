@@ -6,23 +6,19 @@ const cors = require("cors");
 
 const app = express();
 
+// ✅ MIDDLEWARE
 app.use(express.json());
 app.use(cors());
 
-// ✅ MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log("Mongo Error:", err));
-
-// ✅ FIX MODEL NAME (IMPORTANT)
+// ✅ MODEL
 const Contact = require("./models/contact");
 
-// ROOT
+// ✅ ROOT
 app.get("/", (req, res) => {
   res.send("Backend Running 🚀");
 });
 
-// GET
+// ✅ GET
 app.get("/api/contacts", async (req, res) => {
   try {
     const contacts = await Contact.find();
@@ -32,16 +28,12 @@ app.get("/api/contacts", async (req, res) => {
   }
 });
 
-// ADD (THIS IS YOUR ERROR PART)
+// ✅ ADD
 app.post("/api/contacts", async (req, res) => {
   try {
-    console.log("Incoming:", req.body); // debug
+    console.log("Incoming:", req.body);
 
-    const contact = new Contact({
-      name: req.body.name,
-      email: req.body.email,
-      phone: req.body.phone
-    });
+    const contact = new Contact(req.body);
 
     await contact.save();
 
@@ -52,7 +44,7 @@ app.post("/api/contacts", async (req, res) => {
   }
 });
 
-// DELETE
+// ✅ DELETE
 app.delete("/api/contacts/:id", async (req, res) => {
   try {
     await Contact.findByIdAndDelete(req.params.id);
@@ -62,7 +54,7 @@ app.delete("/api/contacts/:id", async (req, res) => {
   }
 });
 
-// UPDATE
+// ✅ UPDATE
 app.put("/api/contacts/:id", async (req, res) => {
   try {
     const updated = await Contact.findByIdAndUpdate(
@@ -76,5 +68,11 @@ app.put("/api/contacts/:id", async (req, res) => {
   }
 });
 
+// ✅ DB CONNECT
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log("Mongo Error:", err));
+
+// ✅ SERVER
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
