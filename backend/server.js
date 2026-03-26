@@ -7,11 +7,17 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb://127.0.0.1:27017/contactDB")
+// ✅ USE ENV VARIABLE (IMPORTANT FOR RENDER)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
 const Contact = require("./models/contact");
+
+// ✅ ROOT ROUTE (fix Cannot GET /)
+app.get("/", (req, res) => {
+  res.send("🚀 Contact Manager Backend Running");
+});
 
 // GET
 app.get("/api/contacts", async (req, res) => {
@@ -42,4 +48,7 @@ app.put("/api/contacts/:id", async (req, res) => {
   res.json(updated);
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+// ✅ USE RENDER PORT
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
