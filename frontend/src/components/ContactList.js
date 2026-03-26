@@ -3,7 +3,7 @@ import axios from "axios";
 function ContactList({ contacts, fetchContacts }) {
 
   const deleteContact = async (id) => {
-    await axios.delete(`http://localhost:5000/api/contacts/${id}`);
+    await axios.delete(`hhttps://contactmanager-eg48.onrender.com/api/contacts/${id}`);
     fetchContacts();
   };
 
